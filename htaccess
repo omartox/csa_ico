@@ -1,0 +1,12 @@
+RewriteEngine on
+
+RewriteCond %{HTTP_REFERER} !^http://csa.x10.mx/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://csa.x10.mx$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.csa.x10.mx/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.csa.x10.mx$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://csa.x10.mx/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://csa.x10.mx$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.csa.x10.mx/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.csa.x10.mx$      [NC]
+RewriteRule .*\.(jpg|jpeg|gif|png|bmp)$ - [F,NC]
+

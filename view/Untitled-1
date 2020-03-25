@@ -1,0 +1,147 @@
+<div class="callout callout-info">
+        <h4>Tip!</h4>
+
+        <p>Add the fixed class to the body tag to get this layout. The fixed layout is your best option if your sidebar
+          is bigger than your content because it prevents extra unwanted scrolling.</p>
+      </div>
+
+
+
+
+
+<div class="row">
+    <div class='col-sm-2'>
+        <button class="btn btn-success" data-toggle="modal" data-target="#addAlumnoModal"><i class="fas fa-plus-circle"></i> Añadir Alumno</button>
+    </div>
+    <div class="col-sm-4 offset-md-6">
+		
+    </div>
+</div>
+<hr>
+
+
+
+<div class="row">
+    <div class="col-sm-12">
+        
+        <!-- Edit Modal HTML -->
+        
+        <div class="table-responsive" id="listar_alumnos">
+        
+        </div>
+            
+    </div>
+</div>
+
+<!-- Edit Modal HTML -->
+<?php include("modal/modal_add_alumno.php");?>
+<?php include("modal/modal_edit_alumno.php");?>
+<?php include("modal/modal_delete_alumno.php");?>
+
+<script>
+    $(function(){
+        listar_alumnos();
+    });
+
+
+     function listar_alumnos(){    
+      $("#listar_alumnos").hide();
+            $.ajax({
+                async: false,
+                url: "model/control_listar_alumnos.php",
+                beforeSend: function(objeto){
+                    $("#listar_alumnos").html("cargando..."); 
+                },
+                success: function(data){
+                  
+                  $("#listar_alumnos").html(data).fadeIn(500);
+                
+                }
+            })
+        };
+
+        $('#editAlumnoModal').on('show.bs.modal', function (event) {
+		  var button = $(event.relatedTarget) // Button that triggered the modal
+		  var credencial = button.data('credencial') 
+		  $('#edit_credencial').val(credencial)
+		  var nombre = button.data('nombre') 
+		  $('#edit_nombre').val(nombre)
+		  var apellidos = button.data('apellidos') 
+		  $('#edit_apellidos').val(apellidos)
+		  var telefono = button.data('telefono') 
+          $('#edit_telefono').val(telefono)
+          var idhorario = button.data('idhorario') 
+          $('#edit_idhorario').val(idhorario)
+          var status = button.data('status') 
+          $('#edit_status').val(status)
+		  var usuario = button.data('usuario') 
+          $('#edit_usuario').val(usuario)
+		  		  
+        })
+        
+        $('#deleteAlumnoModal').on('show.bs.modal', function (event) {
+		  var button = $(event.relatedTarget) // Button that triggered the modal
+		  var credencial = button.data('credencial') 
+		  $('#delete_credencial').val(credencial)
+        })
+       
+		$("#add_alumno").submit(function( event ) {
+		  var parametros = $(this).serialize();
+			$.ajax({
+					type: "POST",
+					url: "model/control_guardar_alumno.php",
+					data: parametros,
+					 beforeSend: function(objeto){
+						$("#resultados").html("Enviando...");
+					  },
+					success: function(datos){
+					$("#resultados").html(datos);
+					listar_alumnos();
+					$('#addAlumnoModal').modal('hide');
+					$('#add_alumno')[0].reset();
+				  }
+			})
+		  event.preventDefault();
+        });
+        
+    
+    $("#delete_alumnoF").submit(function( event ) {
+		  var parametros = $(this).serialize();
+			$.ajax({
+					type: "POST",
+					url: "model/control_delete_alumno.php",
+					data: parametros,
+					 beforeSend: function(objeto){
+						$("#resultados").html("Enviando...");
+					  },
+					success: function(datos){
+					$("#resultados").html(datos);
+					listar_alumnos();
+					$('#deleteAlumnoModal').modal('hide');
+					
+				  }
+			})
+		  event.preventDefault();
+		});
+    
+    
+
+		$("#edit_alumnoF").submit(function( event ) {
+		  var parametros = $(this).serialize();
+			$.ajax({
+					type: "POST",
+					url: "model/control_edit_alumno.php",
+					data: parametros,
+					 beforeSend: function(objeto){
+						$("#resultados").html("Enviando...");
+					  },
+					success: function(datos){
+					$("#resultados").html(datos);
+					listar_alumnos();
+					$('#editAlumnoModal').modal('hide');
+					$('#edit_alumnoF')[0].reset();
+				  }
+			})
+		  event.preventDefault();
+		});
+</script>
