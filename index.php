@@ -1,5 +1,4 @@
 <?php 
-//hola
       session_start();
       if(!isset($_SESSION['u_usuario'])){ 
         header("Location: login/");
